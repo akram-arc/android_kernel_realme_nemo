@@ -3,6 +3,7 @@
 function compile()
 {
 rm -rf AnyKernel
+sudo apt-get update && sudo apt-get install -y bc
 source ~/.bashrc && source ~/.profile
 TANGGAL=$(date +"%Y%m%d-%H")
 export LC_ALL=C && export USE_CCACHE=1
@@ -11,7 +12,7 @@ if [ ! -d "clang" ]; then
     git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r547379.git clang --depth=1
 fi
 
-make O=out ARCH=arm64 nemo_defconfig
+make O=out ARCH=arm64 RM6785_defconfig
 
 PATH="${PWD}/clang/bin:${PATH}" \
 make -j$(nproc --all) O=out \
@@ -22,10 +23,10 @@ make -j$(nproc --all) O=out \
 
 function zipping()
 {
-git clone --depth=1 https://github.com/kardebayan/AnyKernel3.git AnyKernel
+git clone --depth=1 https://github.com/akram-arc/AnyKernel3.git AnyKernel
 cp out/arch/arm64/boot/Image.gz AnyKernel
 cd AnyKernel
-zip -r9 Stormbreaker-nemo-${TANGGAL}.zip *
+zip -r9 Stormbreaker-RM6785-${TANGGAL}.zip *
 }
 
 compile
